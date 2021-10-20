@@ -1,0 +1,4 @@
+outs:
+- md5: 05ddb0fd06383656b040a9aac0029272
+  size: 22777680
+  path: ppi-feats.npy

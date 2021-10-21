@@ -7,8 +7,17 @@ name = "pypi"
 torch = "==1.9.1"
 torchvision = "==0.10.1"
 torchaudio = "==0.9.1"
+numpy = "*"
+networkx = "*"
+sklearn = "*"
+scikit-learn = "*"
+jupyterlab = "*"
 
 [dev-packages]
+black = "*"
 
 [requires]
 python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true

@@ -1,0 +1,14 @@
+stages:
+  preprocess_reddit:
+    cmd: python masters_graphs/word2vec/preprocess_reddit.py --graph_dataset data/reddit/reddit-G.json
+      --classes_dataset data/reddit/reddit-class_map.json --train_output_dataset data/reddit-processed/train_graph.pickle
+      --test_output_dataset data/reddit-processed/test_graph.pickle --validation_output_dataset
+      data/reddit-processed/validation_graph.pickle
+    deps:
+    - data/reddit/reddit-G.json
+    - data/reddit/reddit-class_map.json
+    - masters_graphs/word2vec/preprocess_reddit.py
+    outs:
+    - data/reddit-processed/test_graph.pickle
+    - data/reddit-processed/train_graph.pickle
+    - data/reddit-processed/validation_graph.pickle

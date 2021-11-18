@@ -10,12 +10,16 @@ from sklearn.metrics import f1_score
 from sklearn.preprocessing import StandardScaler
 
 
-def run_regression(train_embeds, train_labels, test_embeds, test_labels):
+def run_regression(
+    train_embeds, train_labels, test_embeds, test_labels, val_embeds, val_labels
+):
     np.random.seed(1)
     dummy = DummyClassifier()
     dummy.fit(train_embeds, train_labels)
-    log = SGDClassifier(loss="log", n_jobs=55)
+    log = SGDClassifier(loss="log", n_jobs=10)
     log.fit(train_embeds, train_labels)
+    print("Validation scores")
+    print(f1_score(val_labels, log.predict(val_embeds), average="micro"))
     print("Test scores")
     print(f1_score(test_labels, log.predict(test_embeds), average="micro"))
     print("Train scores")
@@ -39,7 +43,7 @@ def parse_args():
     return dataset_dir, data_dir, setting
 
 
-def load_data(dataset_dir, setting):
+def load_data(dataset_dir):
 
     print("Loading data...")
     with open(dataset_dir + "/reddit-G.json") as f:
@@ -54,13 +58,15 @@ def load_data(dataset_dir, setting):
         if not G.nodes(data=True)[n].get("val", False)
         and not G.nodes(data=True)[n].get("test", False)
     ]
-    test_ids = [n for n in G.nodes() if G.nodes(data=True)[n].get(setting, False)]
+    test_ids = [n for n in G.nodes() if G.nodes(data=True)[n].get("test", False)]
+    val_ids = [n for n in G.nodes() if G.nodes(data=True)[n].get("val", False)]
     train_labels = [labels[i] for i in train_ids]
     test_labels = [labels[i] for i in test_ids]
-    return train_ids, test_ids, train_labels, test_labels
+    val_labels = [labels[i] for i in val_ids]
+    return train_ids, test_ids, val_ids, train_labels, test_labels, val_labels, G
 
 
-def preprocess_features(dataset_dir, train_ids, test_ids):
+def preprocess_features(dataset_dir, train_ids, test_ids, val_ids):
     print("Using only features..")
     feats = np.load(dataset_dir + "/reddit-feats.npy")
     ## Logistic gets thrown off by big counts, so log transform num comments and score
@@ -70,22 +76,29 @@ def preprocess_features(dataset_dir, train_ids, test_ids):
     feat_id_map = {id: val for id, val in feat_id_map.items()}
     train_feats = feats[[feat_id_map[id] for id in train_ids]]
     test_feats = feats[[feat_id_map[id] for id in test_ids]]
-
+    val_feats = feats[[feat_id_map[id] for id in val_ids]]
     scaler = StandardScaler()
     scaler.fit(train_feats)
     train_feats = scaler.transform(train_feats)
     test_feats = scaler.transform(test_feats)
-    return train_feats, test_feats
+    val_feats = scaler.transform(val_feats)
+    return train_feats, test_feats, val_feats
 
 
 def main():
     dataset_dir, data_dir, setting = parse_args()
-    train_ids, test_ids, train_labels, test_labels = load_data(dataset_dir, setting)
+    train_ids, test_ids, val_ids, train_labels, test_labels, val_labels = load_data(
+        dataset_dir, setting
+    )
 
     if data_dir == "feat":
-        train_feats, test_feats = preprocess_features(dataset_dir, train_ids, test_ids)
+        train_feats, test_feats, val_feats = preprocess_features(
+            dataset_dir, train_ids, test_ids, val_ids
+        )
         print("Running regression..")
-        run_regression(train_feats, train_labels, test_feats, test_labels)
+        run_regression(
+            train_feats, train_labels, test_feats, test_labels, val_feats, val_labels
+        )
 
     elif "n2v" in data_dir:
         print("Doing it N2V style.")

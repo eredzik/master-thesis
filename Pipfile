@@ -9,12 +9,22 @@ torchvision = "==0.10.1"
 torchaudio = "==0.9.1"
 numpy = "*"
 networkx = "*"
-sklearn = "*"
 scikit-learn = "*"
 jupyterlab = "*"
+gensim = "*"
+matplotlib = "*"
+cython = "*"
+node2vec = "*"
+pyqt5 = "*"
+typed-argument-parser = "*"
+torch-geometric = "*"
+torch-scatter = "*"
+torch-sparse = "*"
 
 [dev-packages]
 black = "*"
+ipywidgets = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.9"

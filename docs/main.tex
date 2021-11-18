@@ -1,5 +1,3 @@
-% Template authors: Bogumił Kamiński and Michał Jakubczyk
-
 \documentclass[12pt,a4paper,twoside,openany]{book}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -32,12 +30,12 @@
 \begin{document}
 
 \begin{center}
-\includegraphics[scale=0.3]{sgh_full.png}
+  \includegraphics[scale=0.3]{sgh_full.png}
 
-\vspace{1cm}
+  \vspace{1cm}
 
-% tu i dalej fbox należy usunąć i wpisać odpowiednią wartość
-Studium magisterskie
+  % tu i dalej fbox należy usunąć i wpisać odpowiednią wartość
+  Studium magisterskie
 \end{center}
 
 \vspace{1cm}
@@ -49,37 +47,40 @@ Studium magisterskie
 \vspace{1cm}
 
 {
-\leftskip=10cm\noindent
-Emil Redzik\newline
-Nr albumu: 64121
+  \leftskip=10cm\noindent
+  Emil Redzik\newline
+  Nr albumu: 64121
 
 }
 
 \vspace{2cm}
 
-\title{Wzór pracy dyplomowej SGH}
 \makeatletter
 
 \begin{center}
-\LARGE\bf
-\fbox{\@title}
+  \LARGE\bf
+  Grafy
+  % TODO: Dodać nazwę
+
 \end{center}
 
 \vspace{2cm}
 
 {
-\leftskip=10cm\noindent
-Praca \fbox{magisterska/licencjacka}\newline 
-napisana w~Instytucie Ekonometrii\newline
-pod kierunkiem naukowym\newline
-\fbox{promotor}
+  \leftskip=10cm\noindent
+  Praca magisterska\newline
+  napisana w NAZWAINSTYTUTU\newline
+  % TODO: Dodać nazwę instytutu
+  pod kierunkiem naukowym\newline
+  Sebastiana Zająca
+  % TODO: Dodać promotora
 
 }
 
 \vfill
 
 \begin{center}
-Warszawa, 2021
+  Warszawa, 2021
 \end{center}
 \thispagestyle{empty}
 
@@ -95,154 +96,113 @@ Warszawa, 2021
 
 \clearpage
 
-\chapter*{Uwagi techniczne, skasuj rozdział po uwzględnieniu}
 
-Wymagane jest wgranie pracy do systemu Overleaf (\url{https://www.overleaf.com/}) i udostępnienie promotorowi z~prawem zmian.
+\chapter{Cel pracy}
 
-Pytania do promotora w~tekście proszę zadawać \todo[inline]{o tak}, tj.~stosując \verb!\todo[inline]{o tak}!.
+Celem niniejszej pracy jest przedstawienie nowoczesnych metod modelowania danych reprezentowanych w formie grafu za pomocą sieci neuronowych.
+Szczególny nacisk położony został na zastosowanie tych metod do predykcji wierzchołków, ale przedstawione metody mogą zostać wykorzystane do szerszej gamy zadań.
+\indent
 
-Po kropkach niekończących zdania (np.~po `np.', `tj.', `itd.', itd.) stawiamy znak tyldy, tj.~\verb!~! (żeby zmniejszyć odstęp). Wykorzystujemy także tyldę między odwołaniem i~numerem, np.~`Tabela~3' (oczywiście odwołanie robione automatycznie przez \verb!\ref{}!). I wreszcie, stosujemy tyldę po pojedynczych literach (np.~`i', `a'), bo to niełamliwa spacja i~gwarantuje brak takich liter na końcu linii.
+Wraz z upowszechnieniem się w ostatnich latach
+wykorzystania kart graficznych do wydajnych obliczeń naukowych pojawiły się bardzo duże postępy w rozwoju sztucznych sieci neuronowych.
+Ich zastosowanie staje się coraz bardziej powszechne w biznesie i nauce,
+jednak większość tych metod opiera się o dane ustrukturyzowane (tabelaryczne).
+Niestety te metody nie pozwalają na uwzględnienie w ramach modelu relacji pomiędzy
+poszczególnymi encjami danych w naturalny sposób i wymagają albo
+zmiany poziomu reprezentacji danych poprzez agregację albo zrezygnowanie z tych danych.
+Tworzenie różnego rodzaju agregacji nie pozwala na wykorzystanie kluczowej informacji jaką są same relacje.
+W wykorzystaniu tego typu danych pomagają grafowe sieci neuronowe.
+Znajdują one zastosowania m. in. w badaniach społecznych \cite{DBLP:journals/corr/abs-1807-05560},
+badaniach struktur molekularnych \cite{duvenaud2015convolutional}
+\section{Założenia projektu}
 
-Przykłady odwołań źrółowych:
-% \begin{itemize}
-% \item \citep{dolan2000}, \citet{dolan2000}, \defcitealias{dolan2000}{Dolana (2000)}\citetalias{dolan2000};
-% \item \citep{wakker1999}, \citet{wakker1999}, \defcitealias{wakker1999}{Wakkera i Zhanka (2000)}\citetalias{wakker1999};
-% \item \citep{drummond1997}, \citet{drummond1997}, \defcitealias{drummond1997}{Drummonda et al.~(2000)}\citetalias{drummond1997}.
-% \end{itemize}
+\chapter{Podstawowe pojęcia}
 
-Co warto przeczytać o~\LaTeX:
-\begin{enumerate}
-\footnotesize % tak zmieniamy rozmiar fontu
-\item \url{http://www.tex.ac.uk/ctan/info/gentle/gentle.pdf},
-\item \url{ftp://sunsite.icm.edu.pl/pub/CTAN/info/lshort/english/lshort.pdf},
-\item \url{http://paws.wcu.edu/tsfoguel/tikzpgfmanual.pdf},
-\item \url{https://www.overleaf.com/latex/learn/free-online-introduction-to-latex-part-1}.
-\end{enumerate}
+Grafem nazywamy strukturę danych która jest zdefiniowana jako
+$G = (V, E)$ gdzie $v_i\in V $ to
+zbiór wierzchołków i $E = (v_i, v_j) \in V \times V$ to zbiór krawędzi pomiędzy nimi.
+\cite{waikhom2021graph}
+Krawędzie mogą być skierowane co będzie oznaczać kierunek relacji. Graf w którym krawędzie są skierowane nazywamy grafem
+skierowanym. Do każdego z wierzhołków $V$ mogą być przypisane wektory cech $x_i$.
 
-\chapter{Wprowadzenie}
+\section{Warianty grafów}
+\subsection{Skierowanie}
+Gdy posiadamy informację o kierunkach relacji w grafie to możemy mówić o grafie skierowanym.
+Duża liczba grafów może być przedstawiona jako graf skierowany -
+naturalnym przykładem będzie zbiór przelewów pomiędzy kontami w banku.
+Pieniądze w ramach przelewu płyną w konkretnym kierunku i zagubienie tej informacji by całkowicie zmieniło
+interpretację danych w tym grafie. Przykładem grafu nieskierowanego będzie
+sieć społeczna znajomych - relacja przyjaźni między dwoma osobami jest obustronna i nie ma konkretnego, jasno określonego kierunku.
 
-Celem niniejszej pracy jest \ldots
+\subsection{Homo/heterogeniczność}
+O grafie herogenicznym mówimy gdy w ramach grafu posiadamy różne rodzaje wierzchołków.
+W przykładzie o przelewach w ramach banku możemy rozróżnić różne rodzaje
+kont bankowych - konta techniczne banku, konta firm,
+konta w innych banków, konta osób fizycznych.
 
-\chapter{Kolejny rozdział}
-Wstęp
-\section{Podstawowe pojęcia}
+\subsection{Dynamiczność}
+Graf jest dynamiczny gdy jego zawartość zmienia się w czasie.
+W ramach tych zmian mogą pojawić się nowe lub być usunięte wierzchołki i krawędzie.
+
+\subsection{Attributed graph}
+Krawędzie posiadają cechy
+
+\section{Klasyfikacja zadań na grafach}
+\subsection{Poziom wierzchołka}
+Zadania typu klasyfikacja wierzchołka, regresja wierzchołka
+\subsection{Poziom krawędzi}
+Zadania typu predykcja połączeń, klasyfikacja połączeń
+\subsection{Poziom grafu}
+Zadania typu klasyfikacja grafów
+
+\section{Rodzaje warunków treningowych i zastosowania}
+\subsection{Uczenie nadzorowane i półnadzorowane}
+\subsection{Uczenie nienadzorowane}
+\subsection{}
+
 \begin{itemize}
-\item Definicja grafu \cite{gnn.review}
-\item Grafy skierowane vs nieskierowane
-\item Grafy homogeniczne vs heterogeniczne
-\item Grafy dynamiczne vs statyczne
-\item Zastosowania grafów (node classification, edge classification, node 
-prediction, edge prediction, node embedding etc.)
-\item Rodzaje uczenia (supervised, semi-supervised, unsupervised)
+
+  \item Grafy skierowane vs nieskierowane
+  \item Grafy homogeniczne vs heterogeniczne
+  \item Grafy dynamiczne vs statyczne
+  \item Zastosowania grafów (node classification, edge classification, node
+        prediction, edge prediction, node embedding etc.)
+  \item Rodzaje uczenia (supervised, semi-supervised, unsupervised)
 
 \end{itemize}
 
+\section{Sztuczne sieci neuronowe}
 \section{Grafowe sieci neuronowe (GNN)}
-\begin{itemize}
-    \item 
-\end{itemize}
+\section{GraphSAGE}
+
+
+\section{Mini-batching danych treningowych z grafu}
 
 
 
+\chapter{Przegląd literatury}
 
-\chapter{I następny}
-\label{sec:nast}
+\chapter{Konkrety}
+\section{Dane}
+\subsection{Źródło danych 1 - Reddit dataset}
+\subsection{Źródło danych 2 - Czech bank data}
 
-Bieżący rozdział (czyli rozdział~\ref{sec:nast}) zawiera odwołanie do samego siebie. Stosujmy odwołania automatyczne.
-
-Dodatkowo w niniejszym rozdziale zamieszczono przykładową tabelę (uwaga --- \LaTeX\ umiejscawia ją dynamicznie).
-
-% warto w kodzie poniżej zwrócić uwagę na prawidłowy sposób formatowania liczb z przecinkiem jako znakiem dziesiętnym
-% a dodatkowo na wyrównywanie liczb ułatwiające porównywanie
+\section{Metody i sposób badania}
+\subsection{Metryki użyte do porównania skuteczności}
+\section{Wyniki}
+\section{Możliwe kierunki rozwoju badania}
 
 
-\begin{table}[h]
-\centering
-\caption{Przykładowa tabela.}
-\label{tab:przyklad}
-\footnotesize
-\begin{tabular}{|l|r|r|}
-\hline
-Wariant & $N=5$ & $N=10$\\
-\hline
-A & $2$ & $3\phantom{{,}1}$ \\
-B & $5$ & $3{,}1$ \\
 
-\hline
-\end{tabular} 
-\end{table}
-
-\clearpage
-
-\chapter{Matematyka}
-
-Wzory proste umieszczamy w tekście $a^2+b^2=c^2$, wzory bardziej skomplikowane --- poza nim:
-\begin{equation}
-\sum_{n=1}^{+\infty}\frac{1}{n^2}=\frac{\pi^2}{6}.
-\end{equation}
-
-\section{Pierwszy podrozdział}
-
-\begin{figure}[h]
-  \centering
-  \begin{tikzpicture}[scale=4]
-    \draw[->] (0,0) -- (1.4,0) node[anchor=west] {$n$};
-    \draw[->] (0,0) -- (0,1.35) node[anchor=south] {Iloraz};
-    \foreach \y in {0, 0.25,0.5,0.75,1, 1.25}
-      \draw (0.03, \y) -- (-0.03, \y) node[anchor=east] {$\y$};
-     \foreach \x in {0, 2, 4, 6, 8, 10, 12}
-       \draw ({\x/10}, 0.03) -- ({\x/10}, -0.03) node[anchor=north] {$\x$};
-
-       \draw (0.200000,1.164983) circle[radius=0.02];
-       \draw (0.300000,1.176768) circle[radius=0.02];
-       \draw (0.400000,0.877412) circle[radius=0.02];
-       \draw (0.500000,0.456929) circle[radius=0.02];
-       \draw (0.600000,0.351427) circle[radius=0.02];
-       \draw (0.700000,0.294229) circle[radius=0.02];
-       \draw (0.800000,0.246016) circle[radius=0.02];
-       \draw (0.900000,0.224231) circle[radius=0.02];
-       \draw (1.000000,0.168351) circle[radius=0.02];
-       \draw (1.100000,0.191722) circle[radius=0.02];
-       \draw (1.200000,0.173029) circle[radius=0.02];
-       \draw (1.300000,0.176309) circle[radius=0.02];
-
-       \fill (0.200000,1.225646) circle[radius=0.02];
-       \fill (0.300000,0.986035) circle[radius=0.02];
-       \fill (0.400000,0.945566) circle[radius=0.02];
-       \fill (0.500000,0.688660) circle[radius=0.02];
-       \fill (0.600000,0.556635) circle[radius=0.02];
-       \fill (0.700000,0.483555) circle[radius=0.02];
-       \fill (0.800000,0.443744) circle[radius=0.02];
-       \fill (0.900000,0.413361) circle[radius=0.02];
-       \fill (1.000000,0.344671) circle[radius=0.02];
-       \fill (1.100000,0.374543) circle[radius=0.02];
-       \fill (1.200000,0.358811) circle[radius=0.02];
-       \fill (1.300000,0.362736) circle[radius=0.02];
-  \end{tikzpicture}
-  \caption{Oto przykładowy, skomplikowany rysunek. Często będzie łatwiej. \label{fig:algcomparison}}
-\end{figure}
-
-Każdy rysunek przywołujemy w tekście, także rysunek \ref{fig:algcomparison}. Można też ładować obrazy, jak pokazano na stronie tytułowej.
-
-\section{Drugi}
-
-\section{Trzeci}
-
-\clearpage
-
-\chapter{Podsumowanie}
+\chapter{Wnioski}
 
 
 
 \clearpage
 \addcontentsline{toc}{chapter}{Bibliografia}
-% \begin{thebibliography}{99}
-% \setlength{\itemsep}{0pt}%
-% \bibitem[Dolan(2000)]{dolan2000} Dolan P.~(2000), The Measurement of (...), w: A.J.~Culyer, J.P.~Newhouse (ed.), Handbook of Health Economics, Volume 1B, Elsevier, s.~1723--1760
-% \bibitem[Wakker i Zhank (1999)]{wakker1999} Wakker P., H.~Zank (1999), A Unified Derivation (...), \textit{Journal of  Mathematical Economics}, 32, s.~1-19
-% \bibitem[Drummond et al.~(1997)]{drummond1997} Drummond M.F., B.J.~O'Brien, G.L.~Stoddart, G.W.~Torrance (1997), Methods for Economic Evaluation (...), Oxford University Press
-% \end{thebibliography}
 
+\bibliographystyle{plain}
+\bibliography{refs}
 \clearpage
 \addcontentsline{toc}{chapter}{Spis rysunków}
 \listoffigures
@@ -255,35 +215,12 @@ Każdy rysunek przywołujemy w tekście, także rysunek \ref{fig:algcomparison}.
 \chapter*{Kody źródłowe}
 \addcontentsline{toc}{chapter}{Kody źródłowe}
 
-\section*{Analiza 1}
-\begin{verbatim}
-x <- 1:10
-y <- x + rnorm(10)
-summary(lm(y ~ x))
-\end{verbatim}
-
-\section*{Analiza 2}
-\begin{verbatim}
-x <- rnorm(10000)
-plot(density(x))
-\end{verbatim}
-
-\clearpage
-
 \chapter*{Streszczenie}
 \addcontentsline{toc}{chapter}{Streszczenie}
+Streszczenie między 250-300 słów/ ok 900 znaków
 
-Tutaj piszemy streszczenie. Między 200 a 350 słów. Nie jest omówieniem struktury pracy.
-Zawiera cel, metodę, dane, wyniki, wnioski.
-Nie ma odwołań źródłowych, list, wykresów, tabel. Ma być zrozumiałe dla osoby nieczytającej pracy.
-% \cite{dolan2000}
-\cite{Scarselli2009TheGN}
-\cite{Hamilton2017InductiveRL}
-abc
 \clearpage
 
-\bibliographystyle{plain}
-\bibliography{refs}
 
 
 \end{document}

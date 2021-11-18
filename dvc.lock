@@ -1,0 +1,27 @@
+schema: '2.0'
+stages:
+  preprocess_reddit:
+    cmd: python masters_graphs/word2vec/preprocess_reddit.py --graph_dataset data/reddit/reddit-G.json
+      --classes_dataset data/reddit/reddit-class_map.json --train_output_dataset data/reddit-processed/train_graph.pickle
+      --test_output_dataset data/reddit-processed/test_graph.pickle --validation_output_dataset
+      data/reddit-processed/validation_graph.pickle
+    deps:
+    - path: data/reddit/reddit-G.json
+      md5: 9e7624b05a065c7ea10ef23a246bc906
+      size: 440681971
+    - path: data/reddit/reddit-class_map.json
+      md5: 38f2901b2e4fb2e8226e3d093f9d0747
+      size: 3200934
+    - path: masters_graphs/word2vec/preprocess_reddit.py
+      md5: c5cc0c2e1f83e81f35812bc86d6e7904
+      size: 1945
+    outs:
+    - path: data/reddit-processed/test_graph.pickle
+      md5: 4670af9424852ad1f6b7e123e157b8db
+      size: 15269152
+    - path: data/reddit-processed/train_graph.pickle
+      md5: 2dd7ad007b62de25d9b3fb6ebd23f130
+      size: 95660639
+    - path: data/reddit-processed/validation_graph.pickle
+      md5: e3d8c9430a8c504a83518f0037dbb7c1
+      size: 3211595

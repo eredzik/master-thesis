@@ -47,3 +47,10 @@ latex.out/
 .vscode/
 .ipynb_checkpoints/
 __pycache__/
+
+data/CitationFull/
+data/Reddit/
+masters_graphs/citeseer
+masters_graphs/pubmed
+masters_graphs/reddit
+.env
